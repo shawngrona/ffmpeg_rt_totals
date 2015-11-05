@@ -37,7 +37,7 @@ def step(ext, dirname, names):
         if name.lower().endswith(ext):
             path=os.path.join(dirname, name)
             length = get_video_length(path)
-            #print('Found video, length:' +str(length))
+
            
 
 def get_video_length(path):
@@ -45,22 +45,23 @@ def get_video_length(path):
   process = subprocess.Popen([ffmpeg_path, '-i', path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
   stdout, stderr = process.communicate()
   matches = re.search(r"Duration:\s{1}(?P<hours>\d+?):(?P<minutes>\d+?):(?P<seconds>\d+\.\d+?),", stdout, re.DOTALL).groupdict()
-  #print(matches)
-  hours = Decimal(matches['hours'])
-  minutes = Decimal(matches['minutes'])
-  seconds = Decimal(matches['seconds'])
- 
+
   total = 0
-  total += 60 * 60 * hours
-  total += 60 * minutes
-  total += seconds
-  total = total / 60; # minutes
-  total_length = total_length+total
-  return total
+  if (matches != None):
+    hours = Decimal(matches['hours'])
+    minutes = Decimal(matches['minutes'])
+    seconds = Decimal(matches['seconds'])
+   
+    total += 60 * 60 * hours
+    total += 60 * minutes
+    total += seconds
+    total = total / 60; # minutes
+    total_length = total_length+total
+  print('Found File, duration = '+str(total))
 
 cmdargs = str(sys.argv)
 topdir = str(sys.argv[1])
 ffmpeg_path = str(sys.argv[2])
 exten = str(sys.argv[3])
 os.path.walk(topdir, step, exten)
-print(str(total_length)) 
+print('Total Duration = '+str(total_length)) 
