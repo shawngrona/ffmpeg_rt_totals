@@ -1,0 +1,1 @@
+python -m ffmpeg_rt_totals "$@"
