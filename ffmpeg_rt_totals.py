@@ -44,10 +44,11 @@ def get_video_length(path):
   global total_length
   process = subprocess.Popen([ffmpeg_path, '-i', path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
   stdout, stderr = process.communicate()
-  matches = re.search(r"Duration:\s{1}(?P<hours>\d+?):(?P<minutes>\d+?):(?P<seconds>\d+\.\d+?),", stdout, re.DOTALL).groupdict()
+  matches = re.search(r"Duration:\s{1}(?P<hours>\d+?):(?P<minutes>\d+?):(?P<seconds>\d+\.\d+?),", stdout, re.DOTALL)
 
   total = 0
   if (matches != None):
+    matches = matches.groupdict()
     hours = Decimal(matches['hours'])
     minutes = Decimal(matches['minutes'])
     seconds = Decimal(matches['seconds'])
