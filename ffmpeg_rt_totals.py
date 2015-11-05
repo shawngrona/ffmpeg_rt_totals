@@ -57,7 +57,7 @@ def get_video_length(path):
     total += seconds
     total = total / 60; # minutes
     total_length = total_length+total
-  print('Found File, duration = '+str(total))
+  print(path+' duration = '+str(total))
 
 cmdargs = str(sys.argv)
 topdir = str(sys.argv[1])
